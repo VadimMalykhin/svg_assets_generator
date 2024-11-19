@@ -71,8 +71,8 @@ class Generator {
 
     final svgFiles = await getSvgFiles(_sourceDir);
     for (final svg in svgFiles) {
-      final svgName = path.basenameWithoutExtension(svg.path);
-      final svgSource = formatSvg(await File(svg.path).readAsString());
+      final svgName = formatName(path.basenameWithoutExtension(svg.path));
+      final svgSource = formatSource(await File(svg.path).readAsString());
 
       classBuilder.fields.add(
         Field(
@@ -99,6 +99,6 @@ class Generator {
 
     final saveTo = File(path.join(_outputDir, '$_fileName.dart'));
 
-    await saveTo.writeAsString(formattedCode);
+    await saveTo.writeAsString(template(formattedCode));
   }
 }
