@@ -1,0 +1,43 @@
+import 'dart:io';
+
+import 'package:path/path.dart' as path;
+import 'package:xml/xml.dart';
+
+bool isValidClassName(String value) => RegExp(r'^[A-Z][a-zA-Z0-9]*$').hasMatch(value);
+bool isValidPath(String value) => RegExp(r'^(?:[A-Za-z]:)?([\/\\]{0,2}\w*)+$').hasMatch(value);
+
+void info(String message) => stdout.writeln('INFO: $message');
+void warning(String message) => stdout.writeln('WARNING: $message');
+void error(String message) => stderr.writeln('ERROR: $message');
+
+void exitWithError(String message) {
+  error(message);
+  exit(2);
+}
+
+/// Get the pubspec file.
+File? getPubspecFile() {
+  final rootDirPath = Directory.current.path;
+  final pubspecFilePath = path.join(rootDirPath, 'pubspec.yaml');
+  final pubspecFile = File(pubspecFilePath);
+  return pubspecFile.existsSync() ? pubspecFile : null;
+}
+
+/// Format svg
+String formatSvg(String input) {
+  final document = XmlDocument.parse(input);
+  return document.toXmlString(pretty: true, indent: '  ');
+}
+
+/// Get only svg files in directory
+Future<List<FileSystemEntity>> getSvgFiles(String directory) async {
+  final directory_ = Directory(directory);
+  final List<FileSystemEntity> svgFiles = [];
+  await for (final entity in directory_.list(recursive: true)) {
+    if (entity is File && entity.path.endsWith('.svg')) {
+      svgFiles.add(entity);
+    }
+  }
+
+  return svgFiles;
+}
