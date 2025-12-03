@@ -4,7 +4,7 @@
 
 pubspec.yaml
 
-```
+```yaml
 svg_assets:
   file_name: svg_asset
   class_name: SvgAsset
@@ -14,6 +14,6 @@ svg_assets:
 
 ### Usage
 
-```
+```shell
 dart run svg_assets_generator
 ```
