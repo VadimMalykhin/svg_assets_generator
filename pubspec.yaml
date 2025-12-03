@@ -1,6 +1,7 @@
 name: svg_assets_generator
 description: SVG assets generator.
 repository: https://github.com/VadimMalykhin/svg_assets_generator
+publish_to: "none"
 
 environment:
   sdk: ^3.10.1
